@@ -4,11 +4,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { ProfileComponent } from './profile/profile.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    ProfileComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

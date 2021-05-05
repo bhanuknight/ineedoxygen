@@ -1,0 +1,19 @@
+<div class="wrapper">
+    <div class="header">
+        <h3 *ngIf="!user">Login/Signup</h3>
+        <h3 *ngIf="user">Welcome, {{user.name}}</h3>
+    </div>
+    <app-login *ngIf="!user" (userFound)="checkIfLoggedIn()"></app-login>
+    <div class="main" *ngIf="user">
+        <div class="big-btn">
+            <button>
+                Request Help
+            </button>
+        </div>
+        <div class="big-btn">
+            <button>
+                Remove Request
+            </button>
+        </div>
+    </div>
+</div>

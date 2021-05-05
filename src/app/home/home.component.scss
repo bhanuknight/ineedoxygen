@@ -2,11 +2,12 @@
     width: 100%;
     height: 100vh;
     display: flex;
+    background-color: #f3f3f3;
     .left {
         width: 20%;
     }
     .mid {
-        width: 60%;
+        width: 50%;
         .wrapper {
             height: calc(100% - 30px);
             .map {
@@ -16,7 +17,7 @@
         }
     }
     .right {
-        width: 20%;
+        width: 30%;
     }
     .col {
         height: 100%;
@@ -27,7 +28,8 @@
     width: calc(100% - 30px);
     margin: 15px;
     box-sizing: border-box;
-    padding: 15px;
-    border-radius: 15px;
+    // padding: 15px;
+    border-radius: 4vh;
     box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    overflow: hidden;
 }

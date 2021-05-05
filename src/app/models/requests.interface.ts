@@ -11,3 +11,11 @@ export interface Location {
     lat: number;
     lon: number;
 }
+
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    password: string;
+    postid: string | null;
+}
