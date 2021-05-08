@@ -30,16 +30,13 @@ export class HomeComponent implements OnInit {
   constructor(private store: StoreService) { }
 
   ngOnInit(): void {
-    this.setDataInStore();
+    this.store.postStore = HelpData;
     this.store.postSubject.subscribe(res => {
       this.mapData = res;
       this.getCurrentLocation();
       this.plotMap();
     });
-  }
-
-  setDataInStore() {
-    this.store.postStore = HelpData;
+    this.store.addPost(null);
   }
 
   getCurrentLocation() {

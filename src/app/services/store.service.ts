@@ -23,8 +23,10 @@ export class StoreService {
 
   constructor() { }
 
-  addPost(post: Help) {
-    this.postStore.push(post);
+  addPost(post: Help | null) {
+    if(post) {
+      this.postStore.push(post);
+    }
     this.postSubject.next(this.postStore);
   }
 }
