@@ -3,6 +3,7 @@ import { icon, latLng, marker, tileLayer } from 'leaflet';
 import * as L from 'leaflet';
 import { Help } from '../models/requests.interface';
 import { HelpData } from './datastore';
+import { StoreService } from '../services/store.service';
 
 @Component({
   selector: 'app-home',
@@ -22,15 +23,23 @@ export class HomeComponent implements OnInit {
   // latLonList: any = [];
 
   layers: any[] = [];
-  data: Help[] = HelpData;
+  mapData: Help[] = [];
 
   mapCenter: any;
 
-  constructor() { }
+  constructor(private store: StoreService) { }
 
   ngOnInit(): void {
-    this.getCurrentLocation();
-    this.plotMap();
+    this.setDataInStore();
+    this.store.postSubject.subscribe(res => {
+      this.mapData = res;
+      this.getCurrentLocation();
+      this.plotMap();
+    });
+  }
+
+  setDataInStore() {
+    this.store.postStore = HelpData;
   }
 
   getCurrentLocation() {
@@ -40,9 +49,10 @@ export class HomeComponent implements OnInit {
   }
 
   plotMap() {
-    this.data.forEach(e => {
+    this.mapData.forEach(e => {
       let location = e.location;
-      this.layers.push(marker([location.lat, location.lon]));
+      this.layers.push(marker([location.lat, location.lon])
+      .bindPopup(e.message));
       // this.latLonList.push([location.lat, location.lon])
     })
   }

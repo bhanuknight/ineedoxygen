@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from '../models/requests.interface';
+import { Subject } from 'rxjs';
+import { Help, User } from '../models/requests.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,5 +17,14 @@ export class StoreService {
     }
   ];
 
+  postStore: Help[] = [];
+
+  postSubject = new Subject<Help[]>();
+
   constructor() { }
+
+  addPost(post: Help) {
+    this.postStore.push(post);
+    this.postSubject.next(this.postStore);
+  }
 }

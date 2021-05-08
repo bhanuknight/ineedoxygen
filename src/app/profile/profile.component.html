@@ -5,15 +5,22 @@
     </div>
     <app-login *ngIf="!user" (userFound)="checkIfLoggedIn()"></app-login>
     <div class="main" *ngIf="user">
-        <div class="big-btn">
-            <button>
-                Request Help
-            </button>
-        </div>
-        <div class="big-btn">
-            <button>
-                Remove Request
-            </button>
+        <ng-container *ngIf="!formToggle">
+            <div class="big-btn">
+                <button [disabled]="user.postId" (click)="">
+                    Request Help
+                </button>
+            </div>
+            <div class="big-btn">
+                <button [disabled]="!user.postId">
+                    Remove Request
+                </button>
+            </div>
+        </ng-container>
+        <div class="formToggle">
+            <form #helpForm="ngForm">
+                <input type="text" name="">
+            </form>
         </div>
     </div>
 </div>

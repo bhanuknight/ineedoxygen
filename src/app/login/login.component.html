@@ -14,19 +14,19 @@
     </ng-container>
     <ng-container *ngIf="formType === 'login'">
         <div class="form login">
-            <form name = "loginForm">
-                <input id="loginEmail" type="text" placeholder="email" required>
-                <input id="loginPassword" type="password" placeholder="password" required>
+            <form #loginForm="ngForm">
+                <input id="loginEmail" ngModel name="loginEmail" type="text" placeholder="email" required>
+                <input id="loginPassword" ngModel name="loginPassword" type="password" placeholder="password" required>
             </form>
-            <button [disabled]="loginForm.valid" (click)="login()">Login</button>
+            <button [disabled]="!loginForm.valid" (click)="login()">Login</button>
         </div>
     </ng-container>
     <ng-container *ngIf="formType === 'signup'">
         <div class="form signup">
-            <form #signupForm>
-                <input type="text" placeholder="name" required>
-                <input type="text" placeholder="email" required>
-                <input type="password" placeholder="password" required>
+            <form #signupForm="ngForm">
+                <input type="text" ngModel id="signupName" name="signupName" placeholder="name" required>
+                <input type="text" ngModel id="signupEmail" name="signupEmail" placeholder="email" required>
+                <input type="password" ngModel id="signupPassword" name="signupPassword" placeholder="password" required>
             </form>
             <button [disabled]="!signupForm.valid" (click)="signUp()">Register</button>
         </div>

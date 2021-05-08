@@ -1,4 +1,4 @@
-import { Help, User } from '../models/requests.interface';
+import { Help } from '../models/requests.interface';
 
 export const HelpData: Help[] = [
     {
