@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   mapData: Help[] = [];
 
   mapCenter: any;
+  mapToggle: boolean = false;
 
   constructor(private store: StoreService) { }
 
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
     this.store.postStore = HelpData;
     this.store.postSubject.subscribe(res => {
       this.mapData = res;
+      console.log(this.mapData);
       this.getCurrentLocation();
       this.plotMap();
     });
@@ -42,16 +44,49 @@ export class HomeComponent implements OnInit {
   getCurrentLocation() {
     navigator.geolocation.getCurrentPosition((location) => {
       this.mapCenter = new L.LatLng(location.coords.latitude, location.coords.longitude);
+      this.store.userlocation = {
+        lat: location.coords.latitude,
+        lon: location.coords.longitude
+      }
+
+      let user:any = window.localStorage.getItem('user');
+
+      if(user) {
+        user = JSON.parse(user);
+        if(user['postId'] == null) {
+          this.placeUserMarker();
+        }
+      } else {
+        this.placeUserMarker();
+      }
     });
   }
 
+  placeUserMarker() {
+    this.layers.push(marker([this.store.userlocation.lat, this.store.userlocation.lon], {
+      icon: icon({
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+        iconUrl: "assets/help-marker.png"
+      })
+    }).bindPopup("You are here!").openPopup());
+  }
+
   plotMap() {
+    this.mapToggle = false;
+    this.layers = [];
     this.mapData.forEach(e => {
       let location = e.location;
-      this.layers.push(marker([location.lat, location.lon])
-      .bindPopup(e.message));
+      this.layers.push(marker([location.lat, location.lon], {
+        icon: icon({
+          iconSize: [30, 30],
+          iconAnchor: [15, 15],
+          iconUrl: "assets/user-marker.png"
+        })
+      }).bindPopup(e.message).openPopup());
       // this.latLonList.push([location.lat, location.lon])
-    })
+    });
+    this.mapToggle = true;
   }
 
   // getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number) {

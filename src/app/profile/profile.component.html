@@ -12,15 +12,16 @@
                 </button>
             </div>
             <div class="big-btn">
-                <button [disabled]="!user.postId">
+                <button [disabled]="!user.postId" (click)="removeRequest()">
                     Remove Request
                 </button>
             </div>
         </ng-container>
-        <div class="formToggle">
+        <div class="formToggle" *ngIf="formToggle">
             <form #helpForm="ngForm">
-                <textarea type="text" name="message" placeholder="Write your post here..."></textarea>
+                <textarea type="text" name="message" #message ngModel required placeholder="Write your post here..."></textarea>
             </form>
+            <button [disabled]="!helpForm.valid" (click)="sendRequest(message.value)">Submit</button>
         </div>
     </div>
 </div>
