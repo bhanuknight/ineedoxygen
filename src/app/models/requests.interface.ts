@@ -1,7 +1,7 @@
 
 export interface Help {
     id: string;
-    title?: string,
+    title: string,
     message: string;
     lastUpdated: string;
     created: string;

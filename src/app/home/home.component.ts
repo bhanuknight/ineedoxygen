@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit {
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: 'OpenStreetMap' })
     ],
     zoom: 13,
+    minZoom: 5,
+    maxZoom: 18,
     center: latLng(46.879966, -121.726909)
   };
 
@@ -69,7 +71,7 @@ export class HomeComponent implements OnInit {
         iconAnchor: [15, 15],
         iconUrl: "assets/help-marker.png"
       })
-    }).bindPopup("You are here!").openPopup());
+    }).bindPopup("You are here!", {minWidth : 200}).openPopup());
   }
 
   plotMap() {
@@ -77,13 +79,14 @@ export class HomeComponent implements OnInit {
     this.layers = [];
     this.mapData.forEach(e => {
       let location = e.location;
+      const content = "<h2>"+e.title+"</h2><p>"+e.message+"</p>";
       this.layers.push(marker([location.lat, location.lon], {
         icon: icon({
           iconSize: [30, 30],
           iconAnchor: [15, 15],
           iconUrl: "assets/user-marker.png"
         })
-      }).bindPopup(e.message).openPopup());
+      }).bindPopup(content, {minWidth : 200}).openPopup());
       // this.latLonList.push([location.lat, location.lon])
     });
     this.mapToggle = true;

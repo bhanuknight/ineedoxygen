@@ -25,11 +25,12 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  sendRequest(message: string) {
+  sendRequest(data: any) {
     let postId = this.store.postStore.length.toString();
     let help: Help = {
       id: postId,
-      message: message,
+      title: data.form.controls.title.value,
+      message: data.form.controls.message.value,
       lastUpdated: new Date().toString(),
       created: new Date().toString(),
       location: this.store.userlocation

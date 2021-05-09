@@ -12,16 +12,33 @@
                 </button>
             </div>
             <div class="big-btn">
-                <button [disabled]="!user.postId" (click)="removeRequest()">
+                <button style="background-color: #494949;" [disabled]="!user.postId" (click)="removeRequest()">
                     Remove Request
                 </button>
             </div>
         </ng-container>
-        <div class="formToggle" *ngIf="formToggle">
+        <div class="helpForm" *ngIf="formToggle">
+            <div class="form-header">
+                <div class="close-btn" (click)="formToggle = false">❮</div>
+                <div class="form-title">Ask for help</div>
+            </div>
             <form #helpForm="ngForm">
-                <textarea type="text" name="message" #message ngModel required placeholder="Write your post here..."></textarea>
+                <input placeholder="Title" type="text" name="title" id="title" #title ngModel required>
+                <textarea 
+                    type="text" 
+                    name="message" 
+                    #message ngModel required 
+                    placeholder="Write your message here..."
+                    rows="5">
+                </textarea>
+                <div class="input-box">
+                    <input type="checkbox" name="showEmail" #showEmail id="showEmail" ngModel>
+                    <label for="showEmail">Show my email</label>
+                </div>
             </form>
-            <button [disabled]="!helpForm.valid" (click)="sendRequest(message.value)">Submit</button>
+            <div class="big-btn">
+                <button [disabled]="!helpForm.valid" (click)="sendRequest(helpForm)">Submit</button>
+            </div>
         </div>
     </div>
 </div>
