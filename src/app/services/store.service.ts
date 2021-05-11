@@ -21,7 +21,11 @@ export class StoreService {
 
   postSubject = new Subject<Help[]>();
 
+  selectedPostSubject = new Subject<Help>();
+
   userlocation: any;
+
+  selectedPost: any;
 
   constructor() { }
 
@@ -35,5 +39,10 @@ export class StoreService {
   removePost(index: number) {
     this.postStore.splice(index, 1);
     this.postSubject.next(this.postStore);
+  }
+
+  sendSelectedPostData(post: any) {
+    this.selectedPost = post;
+    this.selectedPostSubject.next(post);
   }
 }

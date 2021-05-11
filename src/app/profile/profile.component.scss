@@ -47,6 +47,17 @@
     }
 }
 
+.close-btn {
+    margin: 0px;
+    border-radius: 50%;
+    color: #494949;
+    font-size: 17px;
+    line-height: 1.6;
+    text-align: center;
+    width: 25px;
+    cursor: pointer;
+}
+
 .helpForm {
     width: 100%;
     .form-header {
@@ -54,18 +65,8 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        justify-content: start;
+        // justify-content: start;
         margin-bottom: 20px;
-        .close-btn {
-            margin: 0px;
-            border-radius: 50%;
-            color: #494949;
-            font-size: 17px;
-            line-height: 1.6;
-            text-align: center;
-            width: 25px;
-            cursor: pointer;
-        }
         .form-title {
             font-size: 18px;
             font-family: sans-serif;
@@ -118,5 +119,15 @@
             font-family: sans-serif;
             font-size: 14px;
         }
+    }
+}
+
+.userPost {
+    margin-top: 50px;
+    .post {
+        margin-top: 15px;
+        border: 1px solid #e0e0e0;
+        padding: 15px;
+        border-radius: 5px;
     }
 }

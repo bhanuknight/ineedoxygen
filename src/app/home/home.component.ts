@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
 
       if(user) {
         user = JSON.parse(user);
-        if(user['postId'] == null) {
+        if(user['postid'] == null) {
           this.placeUserMarker();
         }
       } else {
@@ -75,6 +75,7 @@ export class HomeComponent implements OnInit {
   }
 
   plotMap() {
+    let that = this;
     this.mapToggle = false;
     this.layers = [];
     this.mapData.forEach(e => {
@@ -86,10 +87,14 @@ export class HomeComponent implements OnInit {
           iconAnchor: [15, 15],
           iconUrl: "assets/user-marker.png"
         })
-      }).bindPopup(content, {minWidth : 200}).openPopup());
+      }).bindPopup(content, {minWidth : 200}).openPopup().on('popupopen', this.sendSelectedPost.bind(that,e)));
       // this.latLonList.push([location.lat, location.lon])
     });
     this.mapToggle = true;
+  }
+
+  sendSelectedPost(post: Help) {
+    this.store.sendSelectedPostData(post);
   }
 
   // getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number) {
