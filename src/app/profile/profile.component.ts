@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProfileComponent implements OnInit {
 
   user: any;
+  formToggle: boolean = false;
 
   constructor() { }
 
@@ -23,7 +24,7 @@ export class ProfileComponent implements OnInit {
   }
 
   addPost() {
-    
+
   }
 
 }
