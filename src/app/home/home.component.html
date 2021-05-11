@@ -1,13 +1,28 @@
 <div class="container">
     <div class="left col">
-        <div class="logo">COVID HELP</div>
+        <div class="logo">
+            <img src="assets/logo.png" alt="logo">
+        </div>
     </div>
     <div class="mid col">
         <div class="wrapper">
+            <div class="header">
+                <div class="icon-info">
+                    <div class="icon">
+                        <img src="assets/user-marker2.png" alt="help">
+                        <label>People in need</label>
+                    </div>
+                    <div class="icon">
+                        <img src="assets/help-marker2.png" alt="help">
+                        <label>Your location</label>
+                    </div>
+                </div>
+            </div>
             <div class="map" leaflet 
                 [leafletOptions]="options" 
                 [leafletLayers]="layers"
-                [leafletCenter]="mapCenter">
+                [leafletCenter]="mapCenter"
+                *ngIf="mapToggle">
             </div>
         </div>
     </div>

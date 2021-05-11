@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit {
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: 'OpenStreetMap' })
     ],
     zoom: 13,
+    minZoom: 5,
+    maxZoom: 18,
     center: latLng(46.879966, -121.726909)
   };
 
@@ -26,34 +28,76 @@ export class HomeComponent implements OnInit {
   mapData: Help[] = [];
 
   mapCenter: any;
+  mapToggle: boolean = false;
 
   constructor(private store: StoreService) { }
 
   ngOnInit(): void {
-    this.setDataInStore();
+    this.store.postStore = HelpData;
     this.store.postSubject.subscribe(res => {
       this.mapData = res;
+      console.log(this.mapData);
       this.getCurrentLocation();
       this.plotMap();
     });
-  }
-
-  setDataInStore() {
-    this.store.postStore = HelpData;
+    this.store.addPost(null);
+    // setInterval(() => {
+    //   console.log(this.selectedPost)
+    // }, 5000)
   }
 
   getCurrentLocation() {
     navigator.geolocation.getCurrentPosition((location) => {
       this.mapCenter = new L.LatLng(location.coords.latitude, location.coords.longitude);
+      this.store.userlocation = {
+        lat: location.coords.latitude,
+        lon: location.coords.longitude
+      }
+
+      let user:any = window.localStorage.getItem('user');
+
+      if(user) {
+        user = JSON.parse(user);
+        if(user['postid'] == null) {
+          this.placeUserMarker();
+        }
+      } else {
+        this.placeUserMarker();
+      }
     });
   }
 
+  placeUserMarker() {
+    this.layers.push(marker([this.store.userlocation.lat, this.store.userlocation.lon], {
+      icon: icon({
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+        iconUrl: "assets/help-marker.png"
+      })
+    }).bindPopup("You are here!", {minWidth : 200}).openPopup());
+  }
+
   plotMap() {
+    this.mapToggle = false;
+    this.layers = [];
     this.mapData.forEach(e => {
       let location = e.location;
-      this.layers.push(marker([location.lat, location.lon])
-      .bindPopup(e.message));
+      const content = "<h2>"+e.title+"</h2><p>"+e.message+"</p><button id='reach'>Reach out</button>";
+      this.layers.push(marker([location.lat, location.lon], {
+        icon: icon({
+          iconSize: [30, 30],
+          iconAnchor: [15, 15],
+          iconUrl: "assets/user-marker.png"
+        })
+      }).bindPopup(content, {minWidth : 200}).openPopup().on('popupopen', this.sendSelectedPost.bind(this,e)));
       // this.latLonList.push([location.lat, location.lon])
+    });
+    this.mapToggle = true;
+  }
+
+  sendSelectedPost(post: Help) {
+    const btn: any = L.DomUtil.get('reach')
+    L.DomEvent.addListener(btn, 'click', () => {
     })
   }
 

@@ -21,10 +21,21 @@ export class StoreService {
 
   postSubject = new Subject<Help[]>();
 
+  selectedPostSubject = new Subject<Help>();
+
+  userlocation: any;
+
   constructor() { }
 
-  addPost(post: Help) {
-    this.postStore.push(post);
+  addPost(post: Help | null) {
+    if(post) {
+      this.postStore.push(post);
+    }
+    this.postSubject.next(this.postStore);
+  }
+
+  removePost(index: number) {
+    this.postStore.splice(index, 1);
     this.postSubject.next(this.postStore);
   }
 }
