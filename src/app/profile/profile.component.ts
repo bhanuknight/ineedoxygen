@@ -25,10 +25,8 @@ export class ProfileComponent implements OnInit {
     });
 
     this.store.selectedPostSubject.subscribe(res => {
-      this.currentPost = this.store.selectedPost;
-      setTimeout(() => {
-        console.log(this.currentPost);
-      }, 100);
+      this.currentPost = res;
+      console.log(this.currentPost);
     });
   }
 

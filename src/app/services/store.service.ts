@@ -25,8 +25,6 @@ export class StoreService {
 
   userlocation: any;
 
-  selectedPost: any;
-
   constructor() { }
 
   addPost(post: Help | null) {
@@ -41,8 +39,4 @@ export class StoreService {
     this.postSubject.next(this.postStore);
   }
 
-  sendSelectedPostData(post: any) {
-    this.selectedPost = post;
-    this.selectedPostSubject.next(post);
-  }
 }

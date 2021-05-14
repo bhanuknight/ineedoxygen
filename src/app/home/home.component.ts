@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit {
         iconAnchor: [15, 15],
         iconUrl: "assets/help-marker.png"
       })
-    }).bindPopup("You are here!", {minWidth : 200}).openPopup());
+    }).bindPopup("You are here!").openPopup());
   }
 
   plotMap() {
@@ -87,14 +87,14 @@ export class HomeComponent implements OnInit {
           iconAnchor: [15, 15],
           iconUrl: "assets/user-marker.png"
         })
-      }).bindPopup(content, {minWidth : 200}).openPopup().on('popupopen', this.sendSelectedPost.bind(that,e)));
+      }).bindPopup(content, {minWidth : 200}).openPopup().on('popupopen', this.sendSelectedPost.bind(this,e)));
       // this.latLonList.push([location.lat, location.lon])
     });
     this.mapToggle = true;
   }
 
   sendSelectedPost(post: Help) {
-    this.store.sendSelectedPostData(post);
+    this.store.selectedPostSubject.next(post);
   }
 
   // getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number) {
