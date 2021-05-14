@@ -40,7 +40,7 @@
                 <button [disabled]="!helpForm.valid" (click)="sendRequest(helpForm)">Submit</button>
             </div>
         </div>
-        <div class="userPost" *ngIf="userPost">
+        <div class="userPost" *ngIf="!currentPost && userPost">
             <h3>Your Post</h3>
             <div class="post">
                 <div class="body">
@@ -54,6 +54,20 @@
                 </div>
             </div>
         </div>
+        <div class="userPost" *ngIf="currentPost">
+            <div class="close-btn" (click)="closeSelectedPost()">❮</div>
+            <h3>Selected Post</h3>
+            <div class="post">
+                <div class="body">
+                    <h2 style="margin-bottom: 15px;">{{currentPost.title}}</h2>
+                    <p>{{currentPost?.message}}</p>
+                </div>
+                <div class="comments" *ngIf="currentPost?.comments">
+                    <ul>
+                        <li *ngFor="let comment of currentPost.comments">{{comment}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-{{currentPost | json}}

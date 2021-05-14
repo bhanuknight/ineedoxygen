@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, SimpleChange } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Help, User } from '../models/requests.interface';
 import { StoreService } from '../services/store.service';
 
@@ -14,7 +15,10 @@ export class ProfileComponent implements OnInit {
   userPost: any;
   currentPost: any;
 
-  constructor(private store: StoreService) { }
+  constructor(
+    private store: StoreService,
+    private route: ActivatedRoute,
+    private changeDetectionRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.checkIfLoggedIn();
@@ -26,8 +30,27 @@ export class ProfileComponent implements OnInit {
 
     this.store.selectedPostSubject.subscribe(res => {
       this.currentPost = res;
-      console.log(this.currentPost);
-    });
+      this.changeDetectionRef.detectChanges();
+      console.log(res);
+    })
+
+    // this.route.queryParamMap.subscribe( params => {
+    //   const id = params.get('postId');
+    //   this.currentPost = this.findPostById(id);
+    //   console.log(this.currentPost);  
+    // });
+  }
+
+  closeSelectedPost() {
+    this.currentPost = null;
+    this.changeDetectionRef.detectChanges();
+  }
+
+  findPostById(id: string | null) {
+    if(id) {
+      return this.store.postStore.find(e => e.id === id);
+    }
+    return;
   }
 
   checkForUserPost(postList: Array<any>) {
@@ -69,7 +92,7 @@ export class ProfileComponent implements OnInit {
     let postIndex = this.store.postStore.findIndex(e => e.id === this.user.postid);
     if(postIndex !== -1) {
       this.store.removePost(postIndex);
-      this.user.postId = null;
+      this.user.postid = null;
       window.localStorage.setItem('user', JSON.stringify(this.user));
       this.checkIfLoggedIn();
     }

@@ -4,6 +4,7 @@ import * as L from 'leaflet';
 import { Help } from '../models/requests.interface';
 import { HelpData } from './datastore';
 import { StoreService } from '../services/store.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +31,7 @@ export class HomeComponent implements OnInit {
   mapCenter: any;
   mapToggle: boolean = false;
 
-  constructor(private store: StoreService) { }
+  constructor(private store: StoreService, private router: Router) { }
 
   ngOnInit(): void {
     this.store.postStore = HelpData;
@@ -82,7 +83,7 @@ export class HomeComponent implements OnInit {
     this.layers = [];
     this.mapData.forEach(e => {
       let location = e.location;
-      const content = "<h2>"+e.title+"</h2><p>"+e.message+"</p><button id='reach'>Reach out</button>";
+      const content = "<h2>"+e.title+"</h2><p>"+e.message+"</p>";
       this.layers.push(marker([location.lat, location.lon], {
         icon: icon({
           iconSize: [30, 30],
@@ -97,6 +98,12 @@ export class HomeComponent implements OnInit {
 
   sendSelectedPost(post: Help) {
     this.store.selectedPostSubject.next(post);
+
+    // this.router.navigate([''], {queryParams: {postId: post.id}});
+
+    // const url = '/home?postId=' + post.id;
+    // this.router.navigateByUrl(url);
+    // window.location.href = url;
   }
 
   // getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number) {
