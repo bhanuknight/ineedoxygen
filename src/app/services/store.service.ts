@@ -38,5 +38,4 @@ export class StoreService {
     this.postStore.splice(index, 1);
     this.postSubject.next(this.postStore);
   }
-
 }

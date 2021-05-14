@@ -41,6 +41,9 @@ export class HomeComponent implements OnInit {
       this.plotMap();
     });
     this.store.addPost(null);
+    // setInterval(() => {
+    //   console.log(this.selectedPost)
+    // }, 5000)
   }
 
   getCurrentLocation() {
@@ -75,12 +78,11 @@ export class HomeComponent implements OnInit {
   }
 
   plotMap() {
-    let that = this;
     this.mapToggle = false;
     this.layers = [];
     this.mapData.forEach(e => {
       let location = e.location;
-      const content = "<h2>"+e.title+"</h2><p>"+e.message+"</p>";
+      const content = "<h2>"+e.title+"</h2><p>"+e.message+"</p><button id='reach'>Reach out</button>";
       this.layers.push(marker([location.lat, location.lon], {
         icon: icon({
           iconSize: [30, 30],
