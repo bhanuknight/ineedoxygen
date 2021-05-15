@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
     ],
     zoom: 13,
     minZoom: 5,
-    maxZoom: 18,
+    maxZoom: 13,
     center: latLng(46.879966, -121.726909)
   };
 
@@ -55,16 +55,16 @@ export class HomeComponent implements OnInit {
         lon: location.coords.longitude
       }
 
-      let user:any = window.localStorage.getItem('user');
+      // let user:any = window.localStorage.getItem('user');
 
-      if(user) {
-        user = JSON.parse(user);
-        if(user['postid'] == null) {
-          this.placeUserMarker();
-        }
-      } else {
+      // if(user) {
+      //   user = JSON.parse(user);
+      //   if(user['postid'] == null) {
+      //     this.placeUserMarker();
+      //   }
+      // } else {
         this.placeUserMarker();
-      }
+      // }
     });
   }
 
@@ -83,21 +83,53 @@ export class HomeComponent implements OnInit {
     this.layers = [];
     this.mapData.forEach(e => {
       let location = e.location;
-      const content = "<h2>"+e.title+"</h2><p>"+e.message+"</p>";
+      const content = "<h2>"+e.title+"</h2><p>"+e.message+"</p><br>"+
+      "<input type='text' name='comment' id='comment-input' placeholder='Write your message here.' "+
+      "style='outline: none;padding: 5px;width: 90%;border-radius: 3px;'>"+
+      "<button id='reach-btn' style='padding: 5px;background: #ff3b3f; color: white;border: none;margin-top: 5px;cursor: pointer;border-radius: 3px;'>Reach out</button>";
       this.layers.push(marker([location.lat, location.lon], {
         icon: icon({
           iconSize: [30, 30],
           iconAnchor: [15, 15],
           iconUrl: "assets/user-marker.png"
         })
-      }).bindPopup(content, {minWidth : 200}).openPopup().on('popupopen', this.sendSelectedPost.bind(this,e)));
+      }).bindPopup(content, {minWidth : 300}).openPopup().on('popupopen', this.sendSelectedPost.bind(this,e)));
       // this.latLonList.push([location.lat, location.lon])
     });
     this.mapToggle = true;
   }
 
   sendSelectedPost(post: Help) {
-    this.store.selectedPostSubject.next(post);
+    // this.store.selectedPostSubject.next(post);
+
+    const input = L.DomUtil.get('comment-input') as HTMLInputElement;
+
+    const btn = L.DomUtil.get('reach-btn') as HTMLElement;
+
+    L.DomEvent.on(btn, 'click', () => {
+      const comment = input.value;
+      if(comment) {
+        const index = this.store.postStore.findIndex(e => e.id == post.id);
+        if(index !== -1) {
+          let loggedinUser: any = window.localStorage.getItem('user');
+          if(loggedinUser) {
+            loggedinUser = JSON.parse(loggedinUser);
+            const commentObj = {
+              user: loggedinUser.id,
+              name: loggedinUser.name,
+              comment: comment
+            }
+            const matchedComment = this.store.postStore[index].comments?.find(e => e.user == loggedinUser.id);
+            if(!matchedComment) {
+              this.store.postStore[index].comments?.push(commentObj);
+              console.log(this.store.postStore[index]);
+            }
+          } else {
+            alert("Please login first!");
+          }
+        }
+      }
+    });
 
     // this.router.navigate([''], {queryParams: {postId: post.id}});
 

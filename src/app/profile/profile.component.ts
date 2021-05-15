@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit {
   formToggle: boolean = false;
   userPost: any;
   currentPost: any;
+  mobileToggle: boolean = false;
 
   constructor(
     private store: StoreService,
@@ -22,17 +23,13 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkIfLoggedIn();
-    
-    this.store.postSubject.subscribe(res => {
-      this.userPost = this.checkForUserPost(res);
-      console.log(this.userPost);
-    });
+      // console.log(this.userPost);
 
-    this.store.selectedPostSubject.subscribe(res => {
-      this.currentPost = res;
-      this.changeDetectionRef.detectChanges();
-      console.log(res);
-    })
+    // this.store.selectedPostSubject.subscribe(res => {
+    //   this.currentPost = res;
+    //   this.changeDetectionRef.detectChanges();
+    //   console.log(res);
+    // })
 
     // this.route.queryParamMap.subscribe( params => {
     //   const id = params.get('postId');
@@ -41,34 +38,38 @@ export class ProfileComponent implements OnInit {
     // });
   }
 
-  closeSelectedPost() {
-    this.currentPost = null;
-    this.changeDetectionRef.detectChanges();
-  }
+  // closeSelectedPost() {
+  //   this.currentPost = null;
+  //   this.changeDetectionRef.detectChanges();
+  // }
 
-  findPostById(id: string | null) {
-    if(id) {
-      return this.store.postStore.find(e => e.id === id);
-    }
-    return;
-  }
+  // findPostById(id: string | null) {
+  //   if(id) {
+  //     return this.store.postStore.find(e => e.id === id);
+  //   }
+  //   return;
+  // }
 
-  checkForUserPost(postList: Array<any>) {
+  checkForUserPost() {
     let userPost;
+    let postList = this.store.postStore;
     if(postList.length > 0 && this.user) {
       userPost = postList.find(e => e.id == this.user.postid);
       if(userPost) {
         return userPost;
       }
-      return false;
+      return null;
     }
-    return false;
+    return null;
   }
 
   checkIfLoggedIn() {
     let user = window.localStorage.getItem('user');
     if(user) {
       this.user = JSON.parse(user);
+      this.userPost = this.checkForUserPost();
+    } else {
+      this.user = null;
     }
   }
 
@@ -80,11 +81,13 @@ export class ProfileComponent implements OnInit {
       message: data.form.controls.message.value,
       lastUpdated: new Date().toString(),
       created: new Date().toString(),
-      location: this.store.userlocation
+      location: this.store.userlocation,
+      comments: []
     }
     this.user.postid = postId;
     window.localStorage.setItem('user', JSON.stringify(this.user));
     this.store.addPost(help);
+    this.userPost = this.checkForUserPost();
     this.formToggle = false;
   }
 
@@ -94,8 +97,18 @@ export class ProfileComponent implements OnInit {
       this.store.removePost(postIndex);
       this.user.postid = null;
       window.localStorage.setItem('user', JSON.stringify(this.user));
-      this.checkIfLoggedIn();
+      this.userPost = this.checkForUserPost();
     }
+  }
+
+  logout() {
+    // this.store.postSubject.unsubscribe();
+    window.localStorage.removeItem('user');
+    window.location.reload();
+  }
+
+  toggleForMobile() {
+    this.mobileToggle = !this.mobileToggle;
   }
 
 }

@@ -16,6 +16,14 @@
         font-family: sans-serif;
         display: flex;
         align-items: center;
+        justify-content: space-between;
+        button {
+            background: none;
+            border: 1px solid;
+            border-radius: 3px;
+            padding: 5px;
+            cursor: pointer;
+        }
         // h3 {
         //     font-size: 14px;
         // }
@@ -25,6 +33,7 @@
         height: 88%;
         padding: 3vh;
         box-sizing: border-box;
+        overflow-y: scroll;
     }
 }
 
@@ -127,7 +136,54 @@
     .post {
         margin-top: 15px;
         border: 1px solid #e0e0e0;
-        padding: 15px;
         border-radius: 5px;
+        .body {
+            padding: 15px;
+            width: 100%;
+            box-sizing: border-box;
+            p {
+                font-size: 14px;
+            }
+        }
+        .comments {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            li {
+                list-style: none;
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+.arrow {
+    background: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    line-height: 2.1;
+    font-size: 14px;
+    text-align: center;
+    color: #494949;
+    margin-left: 45%;
+    margin-bottom: 8px;
+    box-shadow: 0 0 18px rgb(0 0 0 / 15%);
+    display: none;
+}
+
+.up {
+    transform: scaleY(-1);
+}
+
+@media screen and (max-width: 780px) {
+    .wrapper {
+        margin: 0;
+        width: 100%;
+        border-radius: 3vh 3vh 0 0;
+    }
+    .arrow {
+        display: block;
     }
 }

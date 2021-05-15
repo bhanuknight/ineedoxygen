@@ -13,6 +13,13 @@ export class StoreService {
       name: "User",
       email: "user@test.com",
       password: "1234",
+      postid: '2'
+    },
+    {
+      id: "02",
+      name: "Bhanu",
+      email: "bhanu@test.com",
+      password: "1234",
       postid: null
     }
   ];
@@ -21,7 +28,7 @@ export class StoreService {
 
   postSubject = new Subject<Help[]>();
 
-  selectedPostSubject = new Subject<Help>();
+  // selectedPostSubject = new Subject<Help>();
 
   userlocation: any;
 
